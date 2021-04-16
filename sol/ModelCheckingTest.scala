@@ -146,6 +146,25 @@ object ModelCheckingTest {
     t.checkException(new IllegalArgumentException("node doesn't exist"),
       EmptyManual, "checkAlways",
       (state: StateData) => state.hasLabel("apple"))
+    //Manually recreate nodes from street-light-2-nodes/-edges.csv files
+    val StLight2Graph = new AdjacencyListGraph[StateData]
+    val StLight2 = new StateMachine(StLight2Graph)
+    val StNode0 = StLight2.addState(List("bigAveRed", "smallStGreen"))
+    val StNode1 = StLight2.addState(List("bigAveGreen", "smallStGreen"))
+    val StNode2 = StLight2.addState(List("bigAveYellow", "smallStGreen"))
+    val StNode3 = StLight2.addState(List("bigAveGreen", "smallStGreen"))
+    val StNode4 = StLight2.addState(List("bigAveRed", "smallStYellow"))
+    StLight2.addTransition(StNode0, StNode1)
+    StLight2.addTransition(StNode0, StNode2)
+    StLight2.addTransition(StNode2, StNode3)
+    StLight2.addTransition(StNode3, StNode4)
+    StLight2.addTransition(StNode1, StNode4)
+    StLight2.setStart(StNode0)
+    t.checkExpect(StLight2.checkAlways(state =>
+      state.hasLabel("bigAveGreen")),
+      Some(StNode0))
+    t.checkExpect(StLight2.checkAlways(state =>
+      state.hasLabel("smallStGreen")), Some(StNode4))
   }
 
   /**
@@ -209,10 +228,30 @@ object ModelCheckingTest {
     t.checkException(new IllegalArgumentException("node doesn't exist"),
       EmptyManual, "checkAlways",
       (state: StateData) => state.hasLabel("apple"))
+    //Manually recreate nodes from street-light-2-nodes/-edges.csv files
+    val StLight2Graph = new AdjacencyListGraph[StateData]
+    val StLight2 = new StateMachine(StLight2Graph)
+    val StNode0 = StLight2.addState(List("bigAveRed", "smallStGreen"))
+    val StNode1 = StLight2.addState(List("bigAveGreen", "smallStGreen"))
+    val StNode2 = StLight2.addState(List("bigAveYellow", "smallStYellow"))
+    val StNode3 = StLight2.addState(List("bigAveGreen", "smallStGreen"))
+    val StNode4 = StLight2.addState(List("bigAveRed", "smallStYellow"))
+    StLight2.addTransition(StNode0, StNode1)
+    StLight2.addTransition(StNode0, StNode2)
+    StLight2.addTransition(StNode2, StNode3)
+    StLight2.addTransition(StNode3, StNode4)
+    StLight2.addTransition(StNode1, StNode4)
+    StLight2.setStart(StNode0)
+    t.checkExpect(StLight2.checkNever(state =>
+      state.hasLabel("bigAveGreen") && state.hasLabel("smallStGreen")),
+      Some(StNode1))
+    t.checkExpect(StLight2.checkNever(state =>
+      state.hasLabel("smallStYellow")),
+      Some(StNode4))
+    t.checkExpect(StLight2.checkNever(state =>
+      state.hasLabel("bigAveRed")),
+      Some(StNode0))
   }
-
-  // Ask if i need to test from csv files too or is this ok?
-  // Ask about the exception initFrom CSV how to set up?
 
 
   def main(args: Array[String]): Unit = {

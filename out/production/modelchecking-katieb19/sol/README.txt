@@ -6,7 +6,7 @@ to create nodes and add edges to the nodes in the list. In the State Data class,
 it creates objects that represent the labels in a state/node. There is also a
 method that checks if the labels in a state have a certain term. Lastly, the
 State Machine class takes in a graph of state data. An example of an inputted
-graph would be one created from the AdjacencyListGraph class. The methods in
+graph would be one created in the AdjacencyListGraph class. The methods in
 the State Machine class check if certain types of nodes occur in the graph
 based on a start node.
 

@@ -74,7 +74,7 @@ class StateMachine(stateGraph: Graph[StateData]) {
 
     for (edge <- edgeList) {
       if (!idMap.contains(edge)) {
-        throw new IOException("Edge doesn't exist")
+        throw new RuntimeException("Edge doesn't exist")
       }
     }
   }
@@ -126,14 +126,14 @@ class StateMachine(stateGraph: Graph[StateData]) {
       while (check.nonEmpty) {
         val currNode = check.head.head
         check = check.tail
-        if (!checkNode(currNode.getContents())) { // if method is false at this node
-          return Some(currNode) // return the node
+        if (!checkNode(currNode.getContents())) {
+          return Some(currNode)
         }
         else {
-          visited += currNode //add node to visited list
-          for (node <- currNode.getNexts()) { // within the get next of the start node
-            if (!visited.contains(node)) { //if didn't already visit (bc then cycle)
-              check = Some(node) :: check // add to check to be looked at next
+          visited += currNode
+          for (node <- currNode.getNexts()) {
+            if (!visited.contains(node)) {
+              check = Some(node) :: check
             }
           }
         }
