@@ -22,9 +22,9 @@ tester file.
 
 Written Questions:
 
-1) The worst-case running time of my checkNever method is quadratic in n where
+1) The worst-case running time of my checkNever method is linear in n where
 n is the number of nodes in the graph reachable from the start state. The
-runtime is quadratic because in the worst case, the inputted checkNode method
+runtime is linear because in the worst case, the inputted checkNode method
 has to be run on every Node reachable from the start state. So, the method
 performs the same computation as it loops through the nodes.
 
